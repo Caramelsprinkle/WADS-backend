@@ -3,7 +3,10 @@ import express from 'express';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose'; 
-import todoRoute from "./routes/todoRoute.js";
+import todoRoute from './routes/todoRoute.js';
+import usersRoute from "./routes/usersRoute.js";
+import swaggerUi from "swagger-ui-express";
+import swaggerSpec from './utils/swagger.js';
 
 const app = express();
 dotenv.config();
@@ -16,6 +19,11 @@ const CONNECTION_URL = process.env.CONNECTION_URL;
 const PORT = process.env.PORT;
 
 app.use("/service/todo", todoRoute)
+app.use("/service/user", usersRoute)
+
+app.use("/todolist/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+    customSiteTitle: "Todo List Management API",
+}))
 
 // app.get("/", (req, res) => {
 //     res.send("Welcome to the MERN To-Do List Backend!")
